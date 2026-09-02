@@ -1,0 +1,28 @@
+name: verify-live-github-pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-live.yml'
+      - 'web/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-live:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check public GitHub Pages
+        run: |
+          set -euo pipefail
+          URL="https://copytolive.github.io/renko-total/"
+          code="$(curl -L -sS --retry 3 --retry-delay 2 -o page.html -w '%{http_code}' "$URL")"
+          echo "HTTP=$code"
+          echo "TITLE_MARKER_COUNT=$(grep -c 'RENKO // TOTAL' page.html || true)"
+          head -c 500 page.html || true
+          echo
+          test "$code" = "200"
+          grep -q 'RENKO // TOTAL' page.html
