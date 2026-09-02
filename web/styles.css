@@ -65,3 +65,65 @@ h1,h2,p{margin:0}.panel-head h2,.metrics-title h2,.detail-head h2{font-size:12px
   .control-panel{margin-top:0;padding:13px}.section-kicker{font-size:8px;margin-bottom:10px}.desktop-kicker{display:none}.mobile-kicker{display:inline}.command-grid{grid-template-columns:repeat(3,1fr);gap:7px}.command-grid>button.command-card{display:flex;min-height:64px;padding:9px;gap:4px}.command-grid>button.command-card .command-label{font-size:6px}.command-grid>button.command-card strong{font-size:7px}.command-grid>button.command-card small{display:none}.command-backtest{grid-column:1/-1;grid-row:1;min-height:96px}.compact-params{display:flex;gap:18px}.compact-params label{flex:1}.run-button{padding:10px;font-size:8px}.command-backtest small{display:none}.status-strip{min-height:56px;margin-top:10px;grid-template-columns:auto 1fr}.status-strip pre{font-size:7px;max-height:34px}.refresh-button{display:none}.detail-panel{order:5;margin-top:12px}.protocol{order:6;margin-top:12px}.table-wrap{max-height:330px}.protocol-grid{grid-template-columns:repeat(2,1fr)}.protocol-grid div:nth-child(2n){border-right:0}.protocol-grid div{border-bottom:1px solid var(--edge-soft)}
   .mobile-nav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;height:66px;background:rgba(8,8,8,.96);border-top:1px solid var(--edge);z-index:50;backdrop-filter:blur(16px);padding-bottom:env(safe-area-inset-bottom)}.mobile-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:7px;color:#777770;font-weight:800}.mobile-nav a span{font-size:15px;line-height:1}.mobile-nav a.active{color:var(--gold)}
 }
+
+
+/* === APPROVED OPTION 05 · NEO MINIMAL MATCH === */
+.brand-mobile,.mobile-kicker{display:none}
+@media (min-width:721px){
+  .page-shell{max-width:1480px;padding:24px 28px 38px}
+  .topbar{height:64px;padding:0 22px}
+  .brand-mark{width:32px;height:32px;border-radius:9px}
+  .brand-mark span{width:13px;height:13px}
+  .brand-copy strong{font-size:16px}
+  .brand-copy small{font-size:8px}
+  .desktop-nav{gap:38px}
+  main{padding:16px}
+  .hero-grid{grid-template-columns:minmax(0,1fr) 260px;gap:16px}
+  .chart-panel canvas{height:440px}
+  .panel-head{padding:15px 16px 9px}
+  .metrics-panel{padding:15px 16px 8px}
+  .metric{min-height:31px;font-size:9px}
+  .metric span:last-child{font-size:10px}
+  .control-panel{margin-top:16px;padding:14px 16px 12px}
+  .section-kicker{margin-bottom:10px}
+  .command-grid{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(310px,1.55fr);gap:9px}
+  .command-card{min-height:58px;padding:9px 12px;gap:3px;border-radius:10px}
+  .command-card strong{font-size:10px}
+  .command-card small{font-size:7px}
+  .command-backtest{min-height:58px;display:grid;grid-template-columns:64px 1fr 118px;align-items:center;column-gap:10px;row-gap:2px}
+  .command-backtest>.command-label{grid-column:1}
+  .command-backtest>.compact-params{grid-column:2}
+  .command-backtest>.run-button{grid-column:3;grid-row:1 / span 2}
+  .command-backtest>small{display:none}
+  .compact-params{display:flex;gap:14px;align-items:center}
+  .compact-params label{display:flex;align-items:center;gap:5px;white-space:nowrap}
+  .compact-params input{width:34px;margin:0;padding:2px 0}
+  .run-button{padding:7px 8px}
+  .status-strip{margin-top:8px;min-height:24px;padding:3px 9px}
+  .status-strip pre{font-size:7px}
+  .detail-panel,.protocol{margin-top:16px}
+}
+@media (max-width:720px){
+  .brand-desktop{display:none!important}
+  .brand-mobile{display:block!important}
+  .desktop-kicker{display:none!important}
+  .mobile-kicker{display:inline!important}
+  .topbar{height:72px}
+  .hero-grid{display:contents}
+  .chart-panel{order:2;margin-bottom:11px}
+  .chart-panel canvas{height:238px}
+  .control-panel{order:3;margin:0;padding:12px}
+  .command-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .command-backtest{grid-column:1/-1;grid-row:1;min-height:104px;padding:11px 13px}
+  .command-grid>button.command-card{min-height:48px;padding:8px 9px;gap:2px}
+  .command-grid>button.command-card small{display:none}
+  .command-grid>button.command-card .command-label{font-size:6px}
+  .command-grid>button.command-card strong{font-size:7px}
+  .compact-params{gap:14px}
+  .run-button{margin-top:2px}
+  .status-strip{min-height:42px;margin-top:8px}
+  .status-strip pre{font-size:6px;line-height:1.35;max-height:27px}
+  .metrics-panel{order:4;margin-top:11px}
+  .detail-panel{order:5}
+  .protocol{order:6}
+}
