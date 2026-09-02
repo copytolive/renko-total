@@ -2,79 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <title>CopyToLive Renko Total — XAUUSD</title>
+  <meta name="theme-color" content="#090909" />
+  <title>Renko Total — XAUUSD</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <div class="eyebrow">COPYTOLIVE · CANONICAL RENKO</div>
-      <h1>XAUUSD Total History Lab</h1>
-    </div>
-    <div class="status" id="modeBadge">LOADING</div>
-  </header>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#chart-section" aria-label="Renko Total home">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span class="brand-copy">
+          <strong>RENKO // TOTAL</strong>
+          <small>XAUUSD · CANONICAL ENGINE</small>
+        </span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary">
+        <a class="active" href="#chart-section">CHART</a>
+        <a href="#backtest-section">BACKTEST</a>
+        <a href="#history-section">HISTORY</a>
+        <a href="#trades-section">TRADES</a>
+        <a href="#protocol-section">PROTOCOL</a>
+      </nav>
+      <div class="status-chip" id="modeBadge"><span class="status-dot"></span><span>LOADING</span></div>
+    </header>
 
-  <main>
+    <main>
+      <section class="mobile-summary" aria-label="Mobile metric summary">
+        <div><span>PF</span><strong id="mobilePF">—</strong></div>
+        <div><span>WR</span><strong id="mobileWR">—</strong></div>
+        <div><span>DD</span><strong id="mobileDD">—</strong></div>
+      </section>
 
-    <section class="panel control-panel">
-      <div class="panel-head">
-        <div><h2>Local Engine Control</h2><p>127.0.0.1 only · no arbitrary shell</p></div>
-        <button id="refreshStatus" class="action-btn">Refresh</button>
-      </div>
-      <div class="control-grid">
-        <div class="control-card"><b>Stack</b><span id="stackStatus">Checking…</span><button id="prepareBtn" class="action-btn primary">Prepare Stack</button></div>
-        <div class="control-card"><b>Dukascopy Smoke</b><span id="smokeStatus">Not started</span><button id="smokeBtn" class="action-btn">Smoke 2026-09-01</button></div>
-        <div class="control-card"><b>Total History</b><span id="historyStatus">Not started</span><button id="historyBtn" class="action-btn">Start / Resume 1999→now</button></div>
-        <div class="control-card"><b>Latest Backtest</b><span id="backtestStatus">Waiting for CSV</span><div class="mini-inputs"><label>Brick<input id="brickInput" type="number" value="100" min="1"></label><label>SL<input id="slInput" type="number" value="2" min="1"></label><label>TP<input id="tpInput" type="number" value="4" min="1"></label></div><button id="backtestBtn" class="action-btn">Run Backtest</button></div>
-      </div>
-      <pre id="localLog" class="local-log">Local server status loading…</pre>
-    </section>
-    <section class="hero-grid">
-      <article class="panel chart-panel">
-        <div class="panel-head">
-          <div>
-            <h2>Renko</h2>
-            <p id="chartMeta">Canonical integer bricks</p>
+      <section class="hero-grid" id="chart-section">
+        <article class="panel chart-panel">
+          <div class="panel-head chart-head">
+            <div>
+              <h2>XAUUSD RENKO</h2>
+              <p id="chartMeta">TOTAL HISTORY · brick_id axis</p>
+            </div>
+            <label class="file-button">LOAD JSON<input id="fileInput" type="file" accept="application/json,.json" /></label>
           </div>
-          <label class="file-button">Load result JSON<input id="fileInput" type="file" accept="application/json,.json" /></label>
+          <canvas id="chart" width="1400" height="620" aria-label="Renko chart"></canvas>
+        </article>
+
+        <aside class="panel metrics-panel" id="metrics-section">
+          <div class="metrics-title">
+            <h2>PERFORMANCE</h2>
+            <p>RAW BID/ASK REPLAY</p>
+          </div>
+          <div id="metrics" class="metric-list"></div>
+        </aside>
+      </section>
+
+      <section class="panel control-panel" id="backtest-section">
+        <div class="section-kicker">ENGINE COMMANDS</div>
+        <div class="command-grid">
+          <button id="prepareBtn" class="command-card" type="button">
+            <span class="command-label">PREPARE</span>
+            <strong>STACK</strong>
+            <small id="stackStatus">Checking…</small>
+          </button>
+          <button id="smokeBtn" class="command-card" type="button">
+            <span class="command-label">SMOKE</span>
+            <strong>DUKASCOPY</strong>
+            <small id="smokeStatus">Not started</small>
+          </button>
+          <button id="historyBtn" class="command-card" type="button">
+            <span class="command-label">HISTORY</span>
+            <strong>1999 → NOW</strong>
+            <small id="historyStatus">Not started</small>
+          </button>
+          <div class="command-card command-backtest">
+            <span class="command-label">BACKTEST</span>
+            <div class="compact-params" aria-label="Backtest parameters">
+              <label>BRICK<input id="brickInput" type="number" value="100" min="1" /></label>
+              <label>SL<input id="slInput" type="number" value="2" min="1" /></label>
+              <label>TP<input id="tpInput" type="number" value="4" min="1" /></label>
+            </div>
+            <button id="backtestBtn" class="run-button" type="button">RUN BACKTEST</button>
+            <small id="backtestStatus">Waiting for CSV</small>
+          </div>
         </div>
-        <canvas id="chart" width="1400" height="620" aria-label="Renko chart"></canvas>
-      </article>
+        <div class="status-strip" id="history-section">
+          <span class="status-dot online"></span>
+          <pre id="localLog">SERVER —  •  RAW DAYS —  •  LATEST RESULT —  •  UPDATED —</pre>
+          <button id="refreshStatus" class="refresh-button" type="button">REFRESH</button>
+        </div>
+      </section>
 
-      <aside class="panel metrics-panel">
-        <div class="panel-head"><h2>Backtest Metrics</h2></div>
-        <div id="metrics" class="metric-list"></div>
-      </aside>
-    </section>
+      <section class="panel detail-panel" id="trades-section">
+        <div class="detail-head">
+          <div><h2>TRADES</h2><p>Raw tick BID/ASK execution · latest 20 rows</p></div>
+          <a href="#chart-section">TOP ↑</a>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Side</th><th>Signal tick</th><th>Entry tick</th><th>Exit tick</th><th>Entry</th><th>Exit</th><th>Reason</th><th>PnL USD</th></tr></thead>
+            <tbody id="tradeRows"></tbody>
+          </table>
+        </div>
+      </section>
 
-    <section class="panel table-panel">
-      <div class="panel-head">
-        <div><h2>Trades</h2><p>Raw tick BID/ASK execution · max 20 rows</p></div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>#</th><th>Side</th><th>Signal tick</th><th>Entry tick</th><th>Exit tick</th><th>Entry</th><th>Exit</th><th>Reason</th><th>PnL USD</th></tr></thead>
-          <tbody id="tradeRows"></tbody>
-        </table>
-      </div>
-    </section>
+      <section class="panel protocol" id="protocol-section">
+        <div class="detail-head"><div><h2>PRODUCTION PROTOCOL</h2><p>Canonical execution rules already used by the repository</p></div></div>
+        <div class="protocol-grid">
+          <div><b>BUY</b><span>ASK → BID</span></div>
+          <div><b>SELL</b><span>BID → ASK</span></div>
+          <div><b>ENTRY</b><span>NEXT RAW TICK</span></div>
+          <div><b>REVERSAL</b><span>2-BRICK RULE</span></div>
+          <div><b>HORIZONTAL KEY</b><span>brick_id</span></div>
+          <div><b>SIGNAL</b><span>CANONICAL RENKO</span></div>
+        </div>
+        <p class="warning" id="warning"></p>
+      </section>
+    </main>
 
-    <section class="panel protocol">
-      <h2>Production Protocol</h2>
-      <div class="protocol-grid">
-        <div><b>Signal</b><span>Canonical Renko from audited ticks</span></div>
-        <div><b>Entry</b><span>Strictly next eligible raw tick</span></div>
-        <div><b>BUY</b><span>Entry ASK · Exit BID</span></div>
-        <div><b>SELL</b><span>Entry BID · Exit ASK</span></div>
-        <div><b>Reversal</b><span>2-brick rule</span></div>
-        <div><b>Horizontal key</b><span>brick_id, not timestamp</span></div>
-      </div>
-      <p class="warning" id="warning"></p>
-    </section>
-  </main>
-
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a class="active" href="#chart-section"><span>▣</span>CHART</a>
+      <a href="#metrics-section"><span>◎</span>METRICS</a>
+      <a href="#trades-section"><span>≡</span>TRADES</a>
+      <a href="#backtest-section"><span>⚙</span>SYSTEM</a>
+    </nav>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
