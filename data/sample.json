@@ -1,0 +1,21 @@
+{
+  "meta":{"symbol":"XAUUSD","mode":"SYNTHETIC_DEMO","price_unit":0.01,"brick_size_units":20,"brick_size_price":0.20,"note":"Demo only. Production results must be generated from audited Dukascopy raw ticks."},
+  "bricks":[
+    {"brick_id":0,"open_units":200000,"close_units":200020,"direction":1,"is_reversal":false},
+    {"brick_id":1,"open_units":200020,"close_units":200040,"direction":1,"is_reversal":false},
+    {"brick_id":2,"open_units":200040,"close_units":200060,"direction":1,"is_reversal":false},
+    {"brick_id":3,"open_units":200060,"close_units":200080,"direction":1,"is_reversal":false},
+    {"brick_id":4,"open_units":200080,"close_units":200060,"direction":-1,"is_reversal":true},
+    {"brick_id":5,"open_units":200060,"close_units":200040,"direction":-1,"is_reversal":false},
+    {"brick_id":6,"open_units":200040,"close_units":200020,"direction":-1,"is_reversal":false},
+    {"brick_id":7,"open_units":200020,"close_units":200040,"direction":1,"is_reversal":true},
+    {"brick_id":8,"open_units":200040,"close_units":200060,"direction":1,"is_reversal":false},
+    {"brick_id":9,"open_units":200060,"close_units":200080,"direction":1,"is_reversal":false}
+  ],
+  "trades":[
+    {"side":1,"signal_tick_id":2,"entry_tick_id":3,"exit_tick_id":7,"entry_units":200042,"exit_units":200118,"exit_reason":"TP","pnl_usd":76.0},
+    {"side":-1,"signal_tick_id":10,"entry_tick_id":11,"exit_tick_id":14,"entry_units":200048,"exit_units":199962,"exit_reason":"TP","pnl_usd":86.0}
+  ],
+  "metrics":{"total_entry":2,"wr_pct":100.0,"pf_net":999.0,"net_profit_usd":162.0,"ev_per_trade_usd":81.0,"avg_win_usd":81.0,"avg_loss_usd":0.0,"max_dd_usd":0.0,"max_dd_pct":0.0,"recovery_factor":999.0,"max_consecutive_loss":0,"sqn":10.0,"positive_year":1,"worst_year_usd":162.0},
+  "monte_carlo":{"iterations":500,"pass_rate_pct":100.0,"dd95_pct":0.0,"dd_limit_pct":50.0}
+}
