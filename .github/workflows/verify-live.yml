@@ -15,14 +15,46 @@ jobs:
   verify-live:
     runs-on: ubuntu-latest
     steps:
-      - name: Check public GitHub Pages
+      - name: Verify public HTML and assets
         run: |
           set -euo pipefail
           URL="https://copytolive.github.io/renko-total/"
-          code="$(curl -L -sS --retry 3 --retry-delay 2 -o page.html -w '%{http_code}' "$URL")"
-          echo "HTTP=$code"
-          echo "TITLE_MARKER_COUNT=$(grep -c 'RENKO // TOTAL' page.html || true)"
-          head -c 500 page.html || true
-          echo
+          code="$(curl -L -sS --retry 5 --retry-delay 2 -o page.html -w '%{http_code}' "$URL")"
+          css_code="$(curl -L -sS --retry 3 -o styles.css -w '%{http_code}' "${URL}styles.css")"
+          js_code="$(curl -L -sS --retry 3 -o app.js -w '%{http_code}' "${URL}app.js")"
+          json_code="$(curl -L -sS --retry 3 -o sample.json -w '%{http_code}' "${URL}data/sample.json")"
+          echo "HTML=$code CSS=$css_code JS=$js_code JSON=$json_code"
           test "$code" = "200"
+          test "$css_code" = "200"
+          test "$js_code" = "200"
+          test "$json_code" = "200"
           grep -q 'RENKO // TOTAL' page.html
+          grep -q 'ENGINE COMMANDS' page.html
+          grep -q 'mobile-summary' page.html
+          grep -q -- '--gold:#f0c94b' styles.css
+          grep -q 'mobilePF' app.js
+          python -m json.tool sample.json >/dev/null
+          echo "LIVE_NEO_MINIMAL_MARKERS=PASS"
+
+      - name: Capture desktop and mobile screenshots
+        run: |
+          set -euo pipefail
+          URL="https://copytolive.github.io/renko-total/"
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser)"
+          echo "CHROME=$CHROME"
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --virtual-time-budget=4000 --window-size=1600,1000 --screenshot=desktop.png "$URL"
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --virtual-time-budget=4000 --window-size=390,844 --force-device-scale-factor=1 --screenshot=mobile.png "$URL"
+          test -s desktop.png
+          test -s mobile.png
+          file desktop.png mobile.png
+          sha256sum desktop.png mobile.png
+
+      - name: Upload visual verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: neo-minimal-live-screenshots
+          path: |
+            desktop.png
+            mobile.png
+          if-no-files-found: error
+          retention-days: 30
