@@ -31,9 +31,9 @@
 
     <main>
       <section class="mobile-summary" aria-label="Mobile metric summary">
-        <div><span>PF</span><strong id="mobilePF">—</strong></div>
-        <div><span>WR</span><strong id="mobileWR">—</strong></div>
-        <div><span>DD</span><strong id="mobileDD">—</strong></div>
+        <div><span id="mobileStat1Label">BID</span><strong id="mobilePF">—</strong></div>
+        <div><span id="mobileStat2Label">ASK</span><strong id="mobileWR">—</strong></div>
+        <div><span id="mobileStat3Label">BRICKS</span><strong id="mobileDD">—</strong></div>
       </section>
 
       <section class="hero-grid" id="chart-section">
@@ -43,15 +43,22 @@
               <h2>XAUUSD RENKO</h2>
               <p id="chartMeta">TOTAL HISTORY · brick_id axis</p>
             </div>
-            <label class="file-button">LOAD JSON<input id="fileInput" type="file" accept="application/json,.json" /></label>
+            <div class="chart-actions">
+              <span class="live-quote" id="liveQuote">CONNECTING…</span>
+              <div class="mode-switch" aria-label="Chart mode">
+                <button type="button" class="active" data-chart-mode="live">LIVE</button>
+                <button type="button" data-chart-mode="result">RESULT</button>
+              </div>
+              <label class="file-button">LOAD JSON<input id="fileInput" type="file" accept="application/json,.json" /></label>
+            </div>
           </div>
           <canvas id="chart" width="1400" height="620" aria-label="Renko chart"></canvas>
         </article>
 
         <aside class="panel metrics-panel" id="metrics-section">
           <div class="metrics-title">
-            <h2>PERFORMANCE</h2>
-            <p>RAW BID/ASK REPLAY</p>
+            <h2 id="metricsTitle">LIVE MARKET</h2>
+            <p id="metricsSubtitle">REAL-TIME BID / ASK FEED</p>
           </div>
           <div id="metrics" class="metric-list"></div>
         </aside>
@@ -127,6 +134,7 @@
       <a href="#backtest-section"><span>⚙</span>SYSTEM</a>
     </nav>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js" referrerpolicy="no-referrer"></script>
   <script src="app.js"></script>
 </body>
 </html>
