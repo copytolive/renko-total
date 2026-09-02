@@ -16,9 +16,15 @@ Launch-oriented research stack for deterministic Renko construction and raw BID/
 
 ## Public browser
 
-Production browser: https://renko-total.vercel.app/\n\nGitHub Pages workflow is retained as an optional manual deployment path after Pages is enabled in repository settings.
+GitHub-only publication is prepared on the `gh-pages` branch.
 
-GitHub Pages deploys the static viewer from `web/`. Public mode shows the deterministic sample/result viewer; local control buttons are only active when served by the included local server.
+Expected GitHub Pages URL:
+
+https://copytolive.github.io/renko-total/
+
+The static viewer is published from the root of `gh-pages`. No Vercel deployment is used by this repository.
+
+If GitHub Pages has not yet been enabled for this repository, set **Settings → Pages → Deploy from a branch → gh-pages → /(root)** once. After that, GitHub serves the public browser directly from this public repository.
 
 ## Local browser control
 
