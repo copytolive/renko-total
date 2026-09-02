@@ -16,7 +16,7 @@ Launch-oriented research stack for deterministic Renko construction and raw BID/
 
 ## Public browser
 
-Expected Pages URL after CI/deploy: https://copytolive.github.io/renko-total/
+Production browser: https://renko-total.vercel.app/\n\nGitHub Pages workflow is retained as an optional manual deployment path after Pages is enabled in repository settings.
 
 GitHub Pages deploys the static viewer from `web/`. Public mode shows the deterministic sample/result viewer; local control buttons are only active when served by the included local server.
 
