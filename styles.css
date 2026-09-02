@@ -127,3 +127,21 @@ h1,h2,p{margin:0}.panel-head h2,.metrics-title h2,.detail-head h2{font-size:12px
   .detail-panel{order:5}
   .protocol{order:6}
 }
+
+
+/* === REAL-TIME XAUUSD RENKO === */
+.chart-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.live-quote{font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--green);letter-spacing:.035em;white-space:nowrap}
+.mode-switch{display:flex;border:1px solid var(--edge);border-radius:10px;overflow:hidden;background:#0b0b0b}
+.mode-switch button{border:0;background:transparent;color:#73736d;font-size:8px;font-weight:900;letter-spacing:.06em;padding:9px 11px;cursor:pointer}
+.mode-switch button+button{border-left:1px solid var(--edge)}
+.mode-switch button.active{background:#19160d;color:var(--gold)}
+.mode-switch button:hover{color:var(--gold)}
+@media(max-width:720px){
+  .chart-head{align-items:center}
+  .chart-actions{gap:5px;max-width:58%;justify-content:flex-end}
+  .live-quote{width:100%;text-align:right;font-size:6px;order:-1}
+  .mode-switch{border-radius:8px}
+  .mode-switch button{font-size:6px;padding:7px 8px}
+  .file-button{padding:7px 8px}
+}
