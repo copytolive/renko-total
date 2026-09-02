@@ -16,6 +16,8 @@ Launch-oriented research stack for deterministic Renko construction and raw BID/
 
 ## Public browser
 
+Expected Pages URL after CI/deploy: https://copytolive.github.io/renko-total/
+
 GitHub Pages deploys the static viewer from `web/`. Public mode shows the deterministic sample/result viewer; local control buttons are only active when served by the included local server.
 
 ## Local browser control
