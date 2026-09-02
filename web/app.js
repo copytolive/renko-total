@@ -3,6 +3,7 @@ const fmt = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 });
 const finite = Number.isFinite;
 const PRICE_UNIT = 0.01;
 const LIVE_SYMBOL = 'XAUUSD';
+const LIVE_BRICK_UNITS = 25;
 const LIVE_HISTORY_URL = 'https://biquote.io/api/XAUUSD/history?count=1000';
 const LIVE_TICK_URL = 'https://biquote.io/api/XAUUSD';
 const LIVE_HUB_URL = 'https://biquote.io/hubs/tick';
@@ -276,7 +277,7 @@ async function connectLiveSignalR() {
 async function startLiveRenko() {
   if (liveStarted) return;
   liveStarted = true;
-  liveEngine = new LiveRenkoEngine(Number($('#brickInput')?.value || 100));
+  liveEngine = new LiveRenkoEngine(LIVE_BRICK_UNITS);
   try { await seedLiveHistory(); } catch (_) {}
   try { await connectLiveSignalR(); }
   catch (_) { startPollingFallback(); }
