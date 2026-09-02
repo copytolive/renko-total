@@ -15,7 +15,7 @@ jobs:
   verify-live:
     runs-on: ubuntu-latest
     steps:
-      - name: Verify public HTML and assets
+      - name: Verify public HTML, assets, and market API
         run: |
           set -euo pipefail
           URL="https://copytolive.github.io/renko-total/"
@@ -23,38 +23,54 @@ jobs:
           css_code="$(curl -L -sS --retry 3 -o styles.css -w '%{http_code}' "${URL}styles.css")"
           js_code="$(curl -L -sS --retry 3 -o app.js -w '%{http_code}' "${URL}app.js")"
           json_code="$(curl -L -sS --retry 3 -o sample.json -w '%{http_code}' "${URL}data/sample.json")"
-          echo "HTML=$code CSS=$css_code JS=$js_code JSON=$json_code"
+          market_code="$(curl -L -sS --retry 3 -o market.json -w '%{http_code}' "https://biquote.io/api/XAUUSD")"
+          echo "HTML=$code CSS=$css_code JS=$js_code JSON=$json_code MARKET=$market_code"
           test "$code" = "200"
           test "$css_code" = "200"
           test "$js_code" = "200"
           test "$json_code" = "200"
+          test "$market_code" = "200"
           grep -q 'RENKO // TOTAL' page.html
-          grep -q 'ENGINE COMMANDS' page.html
-          grep -q 'mobile-summary' page.html
+          grep -q 'data-chart-mode="live"' page.html
+          grep -q 'LIVE_HUB_URL' app.js
+          grep -q 'LiveRenkoEngine' app.js
           grep -q -- '--gold:#f0c94b' styles.css
-          grep -q 'mobilePF' app.js
           python -m json.tool sample.json >/dev/null
-          echo "LIVE_NEO_MINIMAL_MARKERS=PASS"
+          python - <<'PY'
+          import json
+          d=json.load(open('market.json'))
+          assert d.get('symbol') == 'XAUUSD'
+          assert float(d['bid']) > 0
+          assert float(d['ask']) >= float(d['bid'])
+          print('MARKET_API_PASS', d['symbol'], d['bid'], d['ask'], d.get('source'), d.get('marketState'))
+          PY
 
-      - name: Capture desktop and mobile screenshots
+      - name: Verify rendered live Renko DOM and capture screenshots
         run: |
           set -euo pipefail
           URL="https://copytolive.github.io/renko-total/"
           CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser)"
           echo "CHROME=$CHROME"
-          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --virtual-time-budget=4000 --window-size=1600,1000 --screenshot=desktop.png "$URL"
-          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --virtual-time-budget=4000 --window-size=390,844 --force-device-scale-factor=1 --screenshot=mobile.png "$URL"
-          test -s desktop.png
-          test -s mobile.png
-          file desktop.png mobile.png
-          sha256sum desktop.png mobile.png
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --virtual-time-budget=12000 --dump-dom "$URL" > live-dom.html
+          grep -Eq 'LIVE XAUUSD|MARKET CLOSED' live-dom.html
+          grep -Eq 'BID [0-9]|ASK [0-9]' live-dom.html
+          grep -q 'LIVE MARKET' live-dom.html
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --virtual-time-budget=12000 --window-size=1600,1000 --screenshot=desktop-live.png "$URL"
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --virtual-time-budget=12000 --window-size=390,844 --force-device-scale-factor=1 --screenshot=mobile-live.png "$URL"
+          test -s desktop-live.png
+          test -s mobile-live.png
+          file desktop-live.png mobile-live.png
+          sha256sum desktop-live.png mobile-live.png
+          echo "LIVE_RENKO_RENDER_PASS"
 
-      - name: Upload visual verification
+      - name: Upload live visual verification
         uses: actions/upload-artifact@v4
         with:
-          name: neo-minimal-live-screenshots
+          name: realtime-xauusd-renko-screenshots
           path: |
-            desktop.png
-            mobile.png
+            desktop-live.png
+            mobile-live.png
+            live-dom.html
+            market.json
           if-no-files-found: error
           retention-days: 30
